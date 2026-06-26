@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sasuke's Website</title>
+    <style>
+        body {
+            background-color: rgb(124, 49, 15);
+            text-align: center;
+        }
+
+        .dark {
+            background-color: black;
+            color: white;
+        }
+
+        footer {
+            margin-top: 50px;
+            padding: 20px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        #taskList {
+            list-style-position: inside;
+            padding: 0;
+        }
+
+        nav {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .dark a {
+            color: lightblue;
+        }
+
+        img {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: 5px solid white;
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <nav>
+        <a href="#about">About</a> |
+        <a href="#hobbies">Hobbies</a> |
+        <a href="#counter-section">Counter App</a> |
+        <a href="#counter">Counter</a>
+    </nav>
+    <img src="IMG_20220103_105744_298.jpg" alt="Sasuke">
+    <a href="https://www.example.com" target="_blank">
+        Visit Example
+    </a>
+    <h1 id="title">Sasuke's website</h1>
+    <h2 id="greeting"></h2>
+    <h2 id="clock"></h2>
+    <h3 id="date"></h3>
+    <button onclick="surprise()">Don't Click Me</button>
+    <button onclick="askName()">Enter Your Name</button>
+    <h2 id="welcome"></h2>
+    <h2 id="counter-section">Counter App</h2>
+    <h2 id="counter">0</h2>
+    <p id="clicks">Button clicks: 0</p>
+    <button onclick="toggleAbout()">Show/Hide About Me</button>
+    <h2 id="about">About Me</h2>
+    <p id="aboutText">
+        Hi, I'm Sasuke, I'm learning HTML, CSS and JavaScript.
+        My goal is to become a software developer and build cool projects.
+    </p>
+    <h2 id="hobbies">My hobbies</h2>
+    <ul>
+        <li>Coding</li>
+        <li>Listening to music</li>
+        <li>Playing football</li>
+    </ul>
+    <p>I'm learning how to build a fucking website, mannnn this shit crazy icel</p>
+    <button onclick="quote()">Motivate Me</button>
+    <p id="quote"></p>
+    <button onclick="alert('You clicked the button!')">Click me</button>
+    <button onclick="toggleTheme()">Toggle Dark Mode</button>
+    <button onclick="changeColor()">Random Color</button>
+    <button onclick="resetcount()">Reset</button>
+    <button onclick="add()">Add 1</button>
+    <button onclick="subtract()">Subtract 1</button>
+    <h2>My To-Do List</h2>
+
+    <input type="text" id="taskInput" placeholder="Enter a task">
+
+    <button onclick="addTask()">Add Task</button>
+    <button onclick="clearTask()">🗑️ Clear All Task</button>
+    <h3>Tasks Completed: <span id="completed">0</span></h3>
+
+    <ul id="taskList"></ul>
+    <script>
+        let count = 0;
+        let clicks = 0;
+        let completed = 0;
+        function add() {
+            count++;
+            clicks++;
+            document.getElementById('counter').innerHTML = count;
+            document.getElementById("clicks").innerHTML = "Button clicks: " + clicks;
+        }
+        function toggleAbout() {
+            let about = document.getElementById("aboutText");
+
+            if (about.style.display === "none") {
+                about.style.display = "block";
+            } else {
+                about.style.display = "none";
+            }
+        }
+        function clearTask() {
+            document.getElementById("taskList").innerHTML = "";
+            completed = 0;
+            document.getElementById("completed").innerHTML = completed;
+        }
+        function addTask() {
+            let taskInput = document.getElementById("taskInput");
+            let task = taskInput.value;
+
+            if (task === "") {
+                alert("Enter a task first!");
+                return;
+
+            }
+
+            let li = document.createElement("li");
+            li.innerHTML = task + ' <button onclick="this.parentElement.remove()">❌</button>';
+
+            li.onclick = function () {
+                if (this.style.textDecoration === "line-through") {
+                    this.style.textDecoration = "none";
+                    completed--;
+                } else {
+                    this.style.textDecoration = "line-through";
+                    completed++;
+                }
+
+
+                document.getElementById("completed").innerHTML = completed;
+
+            };
+
+            document.getElementById("taskList").appendChild(li);
+            taskInput.value = "";
+        }
+        function resetcount() {
+            count = 0;
+            clicks = 0;
+            document.getElementById('counter').innerHTML = count;
+            document.getElementById('clicks').innerHTML = "Button clicks: 0";
+        }
+        function quote() {
+            let quotes = [
+                "Tatakaeeee.",
+                "You'll win in the end, trust.",
+                "Small Progress is better than no progress.",
+                "Code. Break. Fix. Repeat."
+            ];
+
+            let random = quotes[Math.floor(Math.random() * quotes.length)];
+
+            document.getElementById("quote").innerHTML = random;
+        }
+        function showGreeting() {
+            let hour = new Date().getHours();
+            let greeting;
+
+            if (hour < 12) {
+                greeting = "Good Morning!";
+            } else if (hour < 18) {
+                greeting = "Good Afternoon!";
+            } else {
+                greeting = "Good Evening!";
+            }
+
+            document.getElementById("greeting").innerHTML = greeting;
+
+        }
+
+        showGreeting();
+        function surprise() {
+            document.getElementById('title').innerHTML = 'You clicked the button!';
+            alert("Welcome to Sasuke's website!");
+        }
+        function subtract() {
+            if (count > 0) {
+                count--;
+                document.getElementById('counter').innerHTML = count;
+            }
+        }
+        function updateDate() {
+            let today = new Date();
+            document.getElementById("date").innerHTML = today.toDateString();
+        }
+
+        updateDate();
+        function changeColor() {
+            let colors = [
+                "red",
+                "blue",
+                "green",
+                "beige",
+                "purple",
+                "orange",
+            ];
+
+            let random =
+                colors[Math.floor(Math.random() * colors.length)];
+
+            document.body.style.backgroundColor = random;
+        }
+        function askName() {
+            let name = prompt("What's your name?");
+            document.getElementById("welcome").innerHTML = "welcome, " + name + "!";
+        }
+        function updateClock() {
+            let now = new Date();
+            document.getElementById("clock").innerHTML = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+        function toggleTheme() {
+            document.body.classList.toggle("dark");
+        }
+        window.onload = function () {
+            document.getElementById("year").innerHTML = new Date().getFullYear();
+        };
+        document.getElementById("taskInput").addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                addTask();
+            }
+        });
+    </script>
+    <footer>
+        <hr>
+        <p>&copy; <span id="year"></span> Sasuke's Website</p>
+    </footer>
+</body>
+
+</html>
